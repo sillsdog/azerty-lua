@@ -6,6 +6,6 @@ Everything is probably made in a really unethical way, but it works, so I'm goin
 
 ## Requirements
 
-luvit luvit.io
+luvit https://luvit.io
 
 discordia https://github.com/SinisterRectus/Discordia/wiki
