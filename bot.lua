@@ -1,6 +1,6 @@
 _G.discordia = require('discordia')
 _G.client = discordia.Client({cacheAllMembers = true})
-_G.prefix = "!"
+_G.prefix = '!'
 discordia.extensions.string()
 
 _G.commands = {}
@@ -12,12 +12,12 @@ function _G.addCommand(name,func)
 		return true
 	end
 	commands[name] = function(m) temp(m,func) end
-	print(string.format("Loaded command %s",name))
+	print(string.format('Loaded command %s',name))
 end
 
 function callCommand(m)
 	if string.sub(m.content,1,#prefix) == prefix then
-		local ending = string.find(m.content, " ")
+		local ending = string.find(m.content, ' ')
 		if ending then ending = ending - 1 end
 		local command = string.sub(m.content, #prefix+1, ending)
 		if commands[command] then
@@ -26,11 +26,11 @@ function callCommand(m)
 	end
 end
 
-client:on("messageCreate",callCommand)
+client:on('messageCreate',callCommand)
 
-dofile("commands.lua")
+dofile('commands.lua')
 
-client:run("Bot NDc3NTkxMDkxMDA1MDk1OTM2.Dk-bCQ.acAvUxuPiEZQQLwQNzD5yTCJbfg")
+client:run('Bot BOT_TOKEN')
 
 client:once('ready', function()
 	print('Logged in as '.. client.user.tag)
