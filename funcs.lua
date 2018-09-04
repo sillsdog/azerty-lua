@@ -1,9 +1,9 @@
-function wait(s)
+function _G.wait(s)
 	local ntime = os.time() + s
 	repeat until os.time() > ntime
 end
 
-function SecondsToClock(seconds)
+function _G.SecondsToClock(seconds)
 	local seconds = tonumber(seconds)
 	if seconds <= 1 then
 		return "00:00:00";
@@ -14,3 +14,4 @@ function SecondsToClock(seconds)
 		return hours..":"..mins..":"..secs
 	end
 end
+
