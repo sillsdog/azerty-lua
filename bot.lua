@@ -1,14 +1,14 @@
 _G.discordia = require('discordia')
 _G.client = discordia.Client({cacheAllMembers = true})
 _G.prefix = '!'
-discordia.extensions.string()
-
+discordia.extensions()
 _G.commands = {}
+_G.ontime = os.time()
 
 function _G.addCommand(name,func)
 	local temp = function(m,func) 
-		local arglist = string.sub(m.content,#prefix+#name+2):split(",")
-		func(m,arglist)
+		local args = m.content:split(" ")
+		func(m,args)
 		return true
 	end
 	commands[name] = function(m) temp(m,func) end
@@ -28,7 +28,7 @@ end
 
 client:on('messageCreate',callCommand)
 
-dofile('commands.lua')
+require("./commands.lua")
 
 client:run('Bot BOT_TOKEN')
 
