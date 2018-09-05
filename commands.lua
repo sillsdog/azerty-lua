@@ -41,7 +41,7 @@ addCommand('lua', function(m, args)
 
 		local lines = {}
 	
-		sandbox.message = msg
+		sandbox.m = msg
 		sandbox.client = discordia.Client()
 		
 	
@@ -104,4 +104,58 @@ end)
 addCommand('uptime', function(m)
 	local time = os.time() - ontime
 	m:reply("Uptime: `"..SecondsToClock(time).."`")
+end)
+
+addCommand('dog', function(m, args)
+	if #args == 1 then
+		local http = require('coro-http')
+		local json = require('json')
+		local res, body = http.request("GET", "https://dog.ceo/api/breeds/image/random")
+		local a = json.decode(body)
+		m:reply(a.message)
+	elseif #args == 2 then
+		local http = require('coro-http')
+		local json = require('json')
+		local res, body = http.request("GET", "https://dog.ceo/api/breed/".. args[2] .."/images/random")
+		local a = json.decode(body)
+		m:reply(a.message)
+	elseif #args == 3 then
+		local http = require('coro-http')
+		local json = require('json')
+		local res, body = http.request("GET", "https://dog.ceo/api/breed/".. args[3] .. "/" .. args[2] .."/images/random")
+		local a = json.decode(body)
+		m:reply(a.message)
+	end
+end)
+
+addCommand('8ball', function(m, args)
+	math.randomseed(os.time())
+	local eightball = {"It is certain.", "It is decidedly so.", "Without a doubt.", "Yes - definitely.", "You may rely on it.", "As I see it, yes.", "Most likely.", "Outlook good.", "Yes.", "Signs point to yes.", "Reply hazy, try again", "Ask again later.", "Better not tell you now.", "Cannot predict now.", "Concentrate and ask again.", "Don't count on it.", "My reply is no.", "My sources say no.", "Outlook not so good.", "Very doubtful."} 
+	if #args == 1 then
+		m:reply("You can't ask the magic 8-ball nothing!")
+	elseif #args > 1 then
+		m:reply(":8ball: "..eightball[math.random(#eightball)])
+	end
+end)
+
+addCommand('avatar', function(m, args)
+	if #args == 1 then
+		local url = m.author.avatarURL
+		local pathjoin = require('pathjoin')
+		local http = require('coro-http')
+		local res, body = http.request("GET", url.."?size=1024")
+		assert(res.code < 300)
+		local filename = table.remove(pathjoin.splitPath(url))
+		m:reply{file = {filename, body}}
+	elseif #args > 1 then
+		if userFromMention(args[2]) then
+			local url = userFromMention(args[2]).avatarURL
+			local pathjoin = require('pathjoin')
+			local http = require('coro-http')
+			local res, body = http.request("GET", url.."?size=1024")
+			assert(res.code < 300)
+			local filename = table.remove(pathjoin.splitPath(url))
+			m:reply{file = {filename, body}}
+		end
+	end
 end)
