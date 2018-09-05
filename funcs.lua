@@ -15,3 +15,7 @@ function _G.SecondsToClock(seconds)
 	end
 end
 
+function _G.userFromMention(mention)
+	local id = string.match(mention,"[^<@>!]+")
+	return client:getUser(id)
+end
